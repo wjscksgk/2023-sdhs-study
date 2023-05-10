@@ -11,6 +11,9 @@ export const InputBox = styled.div`
         border: none;
         cursor: pointer;
     }
+    ${Button}:disabled {
+        cursor: not-allowed;
+    }
 `;
 
 export const Input = styled.input`
