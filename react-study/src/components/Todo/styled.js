@@ -19,29 +19,16 @@ export const Container = styled.li`
     justify-content: space-between;
     word-break: break-all;
     margin-bottom: 10px;
-    > div { 
-        display: flex;
-        min-width: 130px;
-    }
+
     > div > ${Button} {
-        background-color: #d6d6d6;
         border: none;
         padding: 7px 12px;
         margin: auto;
         cursor: pointer;
         transition: .2s;
-        opacity: .6;
         font-size: 15px;
         font-weight: bold;
-    }
-    > div > ${Button}:nth-child(1) {
-        background: yellow;
-    }
-    > div > ${Button}:nth-child(2) {
         background: #FF0033;
-    }
-    > div > ${Button}:hover {
-        opacity: 1;
     }
 `;
 
