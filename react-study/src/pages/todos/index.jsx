@@ -11,6 +11,7 @@ function Todos() {
     const [todos, setTodos] = useState([]);
 
     const createTodo = () => {
+        if(!todoName.trim()) return alert("공백입니다.");
         setTodoName('');
         setTodos(prevState => [...prevState, { id: uuid4(), name: todoName }]);
     }

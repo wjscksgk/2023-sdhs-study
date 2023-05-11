@@ -14,7 +14,7 @@ function Main(){
                 </Button>
             </S.MainWapper>
         </S.Container>
-    );
+    );``
 }
 
 export default Main;
