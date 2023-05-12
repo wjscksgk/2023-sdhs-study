@@ -7,7 +7,7 @@ function CreateItemBox({ value, onChange, createTodo }) {
         onChange(e.target.value);
     }
     const inputEnter = e => {
-        if(e.keyCode == 13) createTodo();
+        if(e.keyCode === 13) createTodo();
     }
     
     return (

@@ -2,15 +2,22 @@ import * as S from './styled';
 
 import Todo from '../../../components/Todo';
 
-function ItemList({ todos, deleteTodo }) {
+function ItemList({ todos, searchValue, deleteTodo }) {
+    // 7. 6에서 searchValue를 전달받았다.
     return ( 
         <S.ItemList> 
-            {todos.map(({id, name}) => {
-                const handleDeleteTodo = () => {
-                    deleteTodo(id);
-                }
-                return <Todo key={id} deleteTodo={handleDeleteTodo}>{name}</Todo>;
-            })}
+            
+            {todos
+                // 8. filter 함수를 사용해준다.
+                //    includes로 todo의 name에 검색한 값(searchValue)이 있는지 확인한다.
+                .filter((todo) => todo.name.includes(searchValue))
+                .map(({id, name}) => {
+                    const handleDeleteTodo = () => {
+                        deleteTodo(id);
+                    };
+                    return <Todo key={id} deleteTodo={handleDeleteTodo}>{name}</Todo>;
+                })
+            }
         </S.ItemList>
     );
 }
