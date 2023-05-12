@@ -5,5 +5,5 @@ export const SearchInputBox = styled.div`
 `;
 
 export const SearchInput = styled.input`
-
+    padding: 10px;
 `;
