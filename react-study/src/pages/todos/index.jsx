@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setTodos, createTodo, deleteTodo, deleteSelectedTodos } from '../../reduce/todos';
 
 import * as S from './styled';
 
@@ -10,7 +13,11 @@ import Button from '../../components/Button';
 
 function Todos() {
     const [todoName, setTodoName] = useState('');
-    const [todos, setTodos] = useState([]);
+    // const [tempTodos, setTodos] = useState([]);
+
+    const dispatch = useDispatch();
+
+    const { todos } = useSelector(state => state.todos);
 
     // SearchInput에서 변경된 input의 값을 여기서는 알 수 없다.
     // 그래서 SearchInput의 onChange를 통해 바뀐 값을 여기다가 저장한다.
@@ -21,13 +28,14 @@ function Todos() {
     // 선택한 todos의 id들을 저장하는 state
     const [selectedTodoIds, setSelectedTodoIds] = useState([]);
 
-    const createTodo = () => {
+    const handleCreateTodo = () => {
         if(!todoName.trim()) return alert("공백입니다.");
         setTodoName('');
-        setTodos(prevState => [...prevState, { id: uuid4(), name: todoName }]);
+        dispatch(createTodo({ id: uuid4(), name: todoName }));
+        // setTodos(prevState => [...prevState, { id: uuid4(), name: todoName }]);
     }
     
-    const deleteTodo = id => {
+    const handleDeleteTodo = id => {
         // const findIndex = todos.findIndex(v => v.id === id);
         // setTodos(prevState => {
         //     const tempArr = [...prevState];
@@ -35,22 +43,26 @@ function Todos() {
         //     return tempArr;
         // });
 
-        const filterTodos = todos.filter(v => v.id !== id);
-        setTodos(filterTodos);
+        // const filterTodos = todos.filter(v => v.id !== id);
+        // setTodos(filterTodos);
+
+        dispatch(deleteTodo(id));
     }
 
-    const deleteSelectedTodos = () => {
-        setTodos(prevState => {
-            // [1, 2, 3, 4, 5].findIndex(v => v === 1); return -> 0
-            // [1, 2, 3, 4, 5].includes(v => v === 1); return -> true
-            return prevState.filter(todo => !selectedTodoIds.includes(todo.id));
-        });
+    const handleDeleteSelectedTodos = () => {
+        // setTodos(prevState => {
+        //     // [1, 2, 3, 4, 5].findIndex(v => v === 1); return -> 0
+        //     // [1, 2, 3, 4, 5].includes(v => v === 1); return -> true
+        //     return prevState.filter(todo => !selectedTodoIds.includes(todo.id));
+        // });
+        dispatch(deleteSelectedTodos(selectedTodoIds));
     }
 
     useEffect(() => {
         try {
             const parseTodos = JSON.parse(localStorage.getItem('todos'));
-            setTodos(parseTodos);
+            dispatch(setTodos(parseTodos));
+            // setTodos(parseTodos);
         } catch (error) {
             console.log(error);
         }
@@ -75,8 +87,8 @@ function Todos() {
                     setSearchValue(value);
                 }}
             />
-            <CreateItemBox value={todoName} onChange={setTodoName} createTodo={createTodo} />
-            <Button onClick={deleteSelectedTodos}>선택 된 To do 삭제</Button>
+            <CreateItemBox value={todoName} onChange={setTodoName} createTodo={handleCreateTodo} />
+            <Button onClick={handleDeleteSelectedTodos}>선택 된 To do 삭제</Button>
             {/* 
                 6. 4에서 SearchValue를 바꿔 주었고, 그 값을
                 ItemList에 props로 전달해준다.
@@ -85,7 +97,7 @@ function Todos() {
             <ItemList 
                 todos={todos} 
                 searchValue={searchValue} 
-                deleteTodo={deleteTodo} 
+                deleteTodo={handleDeleteTodo} 
                 setSelectedTodoIds={setSelectedTodoIds} 
             />
         </S.Container>
