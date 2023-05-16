@@ -10,9 +10,3 @@ export const Container = styled.div`
 export const Title = styled.h1`
     font-size: 30px
 `;
-
-export const Flex = styled.div`
-    width: 300px;
-    display: flex;
-    justify-content: space-between;
-`;
