@@ -5,7 +5,7 @@ function List({id, name, level}){
         <S.Li>
             <S.P>{id}</S.P>
             <S.P>{name}</S.P>
-            <S.P>{level}</S.P>
+            <S.P>{level || "없음"}</S.P>
         </S.Li>
     );
 }

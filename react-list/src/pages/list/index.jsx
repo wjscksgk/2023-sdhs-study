@@ -4,7 +4,7 @@ import Button from "../../components/Button/index";
 import ItemList from "./itemList/index";
 // import * as S from "./styled";
 
-function SortId() {
+function Sort() {
     const listData = data.data;
     const [sortState, setSortState] = useState(listData);
 
@@ -38,12 +38,12 @@ function SortId() {
         <div>
             <Button onClick={idUp}>아이디순(오름차)</Button>
             <Button onClick={idDown}>아이디순(내림차)</Button>
-            <Button onClick={levelUp}>레벨순(내림차)</Button>
             <Button onClick={nameUp}>이름순(오름차)</Button>
             <Button onClick={nameDown}>이름순(내림차)</Button>
+            <Button onClick={levelUp}>레벨순(내림차)</Button>
             <ItemList sortState={sortState}></ItemList>
         </div>
     );
 }
 
-export default SortId;
+export default Sort;
