@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MyReact App</title>
 </head>
 <body>
     <div id="app"></div>
-
-    <script>
+    <script type="module" src="./src/main.js"></script>
+    <!-- <script>
         let currentStateKey = 0; // useState가 실행된 횟수
         const states = []; // state를 보관할 배열
 
@@ -26,6 +26,14 @@
             // state 할당
             const state = states[key];
             const setState = (newState) => {
+                // 값이 똑같은 경우
+                if(newState === state) return;
+
+                // 배열/객체일 때는 JSON.stringify를 통해 간단하게 비교할 수 있다.
+                // 그런데 Set, Map, WeekMap, Symbol 같은 원시타입의 경우
+                // JSON으로 파싱되지 않기 때문에 주의해야한다.
+                if(JSON.stringify(newState) === JSON.stringify(state)) return;
+
                 states[key] = newState;
                 // state를 직접 수정하는 것이 아닌, states 내부의 값을 수정
                 render(); //render를 실행한다
@@ -66,20 +74,52 @@
             `;
         }
 
-        function render() {
+        function CounterAndMeow() {
+            const [count, setCount] = useState(1);
+            const [cat, setCat] = useState('야옹!');
+
+            function countMeow (newCount) {
+                setCount(newCount);
+                setCat('야옹! '.repeat(newCount));
+            }
+
+            window.increment = () => countMeow(count + 1);
+            window.decrement = () => countMeow(count - 1);
+
+            return `
+                <div>
+                    <p>고양이가 ${count}번 울어서 ${cat}</p>    
+                    <button onclick="increment()">증가</button>
+                    <button onclick="decrement()">감소</button>
+                </div>
+            `;
+        }
+
+        function debounceFrame(callback) {
+            let nextFrameCallback = -1;
+            return () => {
+                cancelAnimationFrame(nextFrameCallback);
+                nextFrameCallback = requestAnimationFrame(callback)
+            }
+        };
+
+        let renderCount = 0;
+        const render = debounceFrame(() => {
             // document의 id가 app인 element를 찾아서
             const $app = document.querySelector('#app');
             // element의 innerHTML을 Counter의 return 값으로 변경해준다.
             $app.innerHTML = `
                 <div>
-                    ${Counter()}
-                    ${Cat()}
+                    renderCount: ${renderCount}
+                    ${CounterAndMeow()}
                 </div>
             `;
+            renderCount += 1;
             currentStateKey = 0;
-        }
+        })
 
         render();
-    </script>
+    </script> -->
+
 </body>
 </html>
